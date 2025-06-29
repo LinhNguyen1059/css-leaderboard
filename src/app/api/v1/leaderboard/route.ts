@@ -7,6 +7,7 @@ import {
   addDays,
   subDays,
 } from "date-fns";
+import { RANK_TREND } from "@/constants/Game";
 
 function getRange(mode: string, date: Date) {
   if (mode === "day") {
@@ -86,7 +87,13 @@ export async function GET(req: NextRequest) {
     const rank = i + 1;
     const pr = prevRank.get(p.name);
     const trend =
-      pr == null ? "new" : rank < pr ? "up" : rank > pr ? "down" : "same";
+      pr == null
+        ? RANK_TREND.SAME
+        : rank < pr
+          ? RANK_TREND.UP
+          : rank > pr
+            ? RANK_TREND.DOWN
+            : RANK_TREND.SAME;
     return { name: p.name, score: p.score, rank, trend };
   });
 
