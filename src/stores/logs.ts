@@ -11,6 +11,7 @@ interface LogsStoreState {
   chatSelected?: ChatCount;
   openChatPopup: boolean;
   error: GameError;
+  date: Date;
 }
 
 interface LogsStoreActions {
@@ -33,6 +34,7 @@ const initialState: LogsStoreState = {
     map: "",
     stab: "",
   },
+  date: new Date(),
 };
 
 const useLogsStore = create<LogsStore>()(set => ({

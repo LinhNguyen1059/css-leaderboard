@@ -1,4 +1,4 @@
-import { Chat, ChatCount } from "@/types/game";
+import { Chat, ChatCount, LogsInfo } from "@/types/game";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -89,4 +89,40 @@ export function groupChatsByPlayer(chats: Chat[]): ChatCount[] {
   });
 
   return result;
+}
+
+export function parseGameLogToScores(log: LogsInfo) {
+  if (!log || !log.stabs || log.stabs.length === 0) {
+    return {
+      matchDate: log?.matchDate || "",
+      scores: [],
+    };
+  }
+
+  const killMap: Record<string, number> = {};
+  const deathMap: Record<string, number> = {};
+
+  for (const stab of log.stabs) {
+    killMap[stab.killer] = (killMap[stab.killer] || 0) + 1;
+    deathMap[stab.victim] = (deathMap[stab.victim] || 0) + 1;
+  }
+
+  // Get all unique players
+  const allPlayers = new Set([
+    ...Object.keys(killMap),
+    ...Object.keys(deathMap),
+  ]);
+
+  const scores = Array.from(allPlayers).map(name => {
+    const kills = killMap[name] || 0;
+    const deaths = deathMap[name] || 0;
+    const score = kills - deaths;
+
+    return { name, kills, deaths, score };
+  });
+
+  return {
+    matchDate: log.matchDate,
+    scores,
+  };
 }

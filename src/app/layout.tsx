@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Fira_Code, Roboto } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
+import QueryProvider from "@/components/QueryProvider";
 import "./globals.css";
 
 const roboto = Roboto({
@@ -28,8 +29,10 @@ export default function RootLayout({
       <body
         className={`${roboto.variable} ${firaCode.variable} font-[family-name:var(--font-roboto)] antialiased`}
       >
-        {children}
-        <Toaster richColors />
+        <QueryProvider>
+          {children}
+          <Toaster richColors />
+        </QueryProvider>
       </body>
     </html>
   );

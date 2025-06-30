@@ -45,12 +45,12 @@ export async function GET(req: NextRequest) {
   const [{ data: cur }, { data: prev }, curErr, prevErr] = await Promise.all([
     supabase
       .from("daily_scores")
-      .select("name, score")
+      .select("name, kills, deaths, score, total_map_score")
       .gte("match_date", start.toISOString().slice(0, 10))
       .lt("match_date", end.toISOString().slice(0, 10)),
     supabase
       .from("daily_scores")
-      .select("name, score")
+      .select("name, kills, deaths, score, total_map_score")
       .gte("match_date", prevStart.toISOString().slice(0, 10))
       .lt("match_date", prevEnd.toISOString().slice(0, 10)),
     Promise.resolve(null),
@@ -69,8 +69,11 @@ export async function GET(req: NextRequest) {
   const agg = (rows: any[]) =>
     Object.values(
       rows.reduce((acc: Record<string, any>, r: any) => {
-        acc[r.name] ??= { name: r.name, score: 0 };
+        acc[r.name] ??= { name: r.name, kills: 0, deaths: 0, score: 0 };
+        acc[r.name].kills += r.kills;
+        acc[r.name].deaths += r.deaths;
         acc[r.name].score += r.score;
+        acc[r.name].total_map_score = r.total_map_score;
         return acc;
       }, {})
     );
@@ -94,7 +97,15 @@ export async function GET(req: NextRequest) {
           : rank > pr
             ? RANK_TREND.DOWN
             : RANK_TREND.SAME;
-    return { name: p.name, score: p.score, rank, trend };
+    return {
+      name: p.name,
+      kills: p.kills,
+      deaths: p.deaths,
+      score: p.score,
+      rank,
+      trend,
+      totalMapScore: p.total_map_score,
+    };
   });
 
   return NextResponse.json({ data: result });
