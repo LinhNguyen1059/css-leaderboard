@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import useLogsStore from "@/stores/logs";
 
 export default function useGetMapInfo() {

@@ -1,10 +1,11 @@
 import { useMemo } from "react";
-import { countOccurrences, formatStabCounts } from "@/lib/utils";
+
 import { useStabsData } from "./LogsContext";
+import { countOccurrences, formatStabCounts } from "@/lib/utils";
 
 export default function Victim() {
   const stabs = useStabsData();
-  
+
   const victim = useMemo(() => {
     if (!stabs || stabs.length === 0) return null;
     return formatStabCounts(countOccurrences(stabs, "victim"));

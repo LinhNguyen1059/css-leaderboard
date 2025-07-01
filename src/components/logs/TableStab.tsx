@@ -1,10 +1,11 @@
 import { useMemo } from "react";
-import { useStabsData } from "./LogsContext";
+
 import { Table, TableBody, TableCell, TableRow } from "../ui/table";
+import { useStabsData } from "./LogsContext";
 
 export default function TableStab() {
   const stabs = useStabsData();
-  
+
   const stabsData = useMemo(() => {
     if (!stabs || stabs.length === 0) return [];
     return stabs.map(stab => ({

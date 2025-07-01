@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+
 import { supabase } from "@/lib/supabase";
 
 export async function POST(req: NextRequest) {
@@ -16,7 +17,6 @@ export async function POST(req: NextRequest) {
   yesterday.setDate(today.getDate() - 1);
   const yesterdayStr = yesterday.toISOString().split("T")[0];
 
-  // Fetch yesterday's scores
   const { data: prevScores, error: prevError } = await supabase
     .from("daily_scores")
     .select("name, total_map_score")
@@ -31,7 +31,6 @@ export async function POST(req: NextRequest) {
     prevScores?.map(p => [p.name, p.total_map_score]) ?? []
   );
 
-  // Prepare cumulative scores
   const finalScores = scores.map((s: any) => ({
     name: s.name,
     match_date: matchDate,
@@ -42,7 +41,6 @@ export async function POST(req: NextRequest) {
     log_id: logId,
   }));
 
-  // Upsert today's scores
   const { error: upsertError, data: upsertData } = await supabase
     .from("daily_scores")
     .upsert(finalScores, { onConflict: "name,match_date,log_id" });

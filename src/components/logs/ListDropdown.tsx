@@ -1,4 +1,3 @@
-import useLogsStore from "@/stores/logs";
 import { Button } from "../ui/button";
 import {
   DropdownMenu,
@@ -7,6 +6,7 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { LIST_VIEW } from "@/constants/Game";
+import useLogsStore from "@/stores/logs";
 
 export default function ListDropdown() {
   const listView = useLogsStore(state => state.listView);

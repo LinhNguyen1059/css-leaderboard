@@ -1,6 +1,5 @@
-"use client";
-
 import { createContext, useContext, ReactNode } from "react";
+
 import { LogsInfo } from "@/types/game";
 
 interface LogsContextType {

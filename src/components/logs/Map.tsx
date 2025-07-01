@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { SquareArrowOutUpRight } from "lucide-react";
+
 import { useMapData } from "./LogsContext";
 
 export default function Map() {

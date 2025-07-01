@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Fira_Code, Roboto } from "next/font/google";
+
 import { Toaster } from "@/components/ui/sonner";
 import QueryProvider from "@/components/QueryProvider";
+
 import "./globals.css";
 
 const roboto = Roboto({

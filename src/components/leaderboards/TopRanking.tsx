@@ -1,6 +1,7 @@
 import Image from "next/image";
-import useLeaderboardStore from "@/stores/leaderboard";
 import { useMemo } from "react";
+
+import useLeaderboardStore from "@/stores/leaderboard";
 
 export default function TopRanking() {
   const leaderboard = useLeaderboardStore(state => state.leaderboard);

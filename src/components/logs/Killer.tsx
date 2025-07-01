@@ -4,7 +4,7 @@ import { useStabsData } from "./LogsContext";
 
 export default function Killer() {
   const stabs = useStabsData();
-  
+
   const killer = useMemo(() => {
     if (!stabs || stabs.length === 0) return null;
     return formatStabCounts(countOccurrences(stabs, "killer"));

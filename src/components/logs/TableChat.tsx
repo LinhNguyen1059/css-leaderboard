@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { SquareArrowOutUpRight } from "lucide-react";
+
 import {
   Table,
   TableBody,
@@ -9,10 +10,10 @@ import {
   TableRow,
 } from "../ui/table";
 import { Button } from "../ui/button";
+import { useChatsData } from "./LogsContext";
+import useLogsStore from "@/stores/logs";
 import { ChatCount } from "@/types/game";
 import { groupChatsByPlayer } from "@/lib/utils";
-import useLogsStore from "@/stores/logs";
-import { useChatsData } from "./LogsContext";
 
 export default function TableChat() {
   const setProps = useLogsStore(state => state.setProps);

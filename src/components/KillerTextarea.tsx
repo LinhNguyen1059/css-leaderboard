@@ -1,9 +1,10 @@
-import useLogsStore from "@/stores/logs";
+import { useEffect } from "react";
+
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
-import { cn } from "@/lib/utils";
 import useDebounce from "@/hooks/useDebounce";
-import { useEffect } from "react";
+import useLogsStore from "@/stores/logs";
+import { cn } from "@/lib/utils";
 
 export default function KillerTextarea() {
   const stab = useLogsStore(state => state.stab);
