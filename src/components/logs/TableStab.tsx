@@ -1,23 +1,25 @@
 import { useMemo } from "react";
-import { LogsInfo } from "@/types/game";
+import { useStabsData } from "./LogsContext";
 import { Table, TableBody, TableCell, TableRow } from "../ui/table";
 
-export default function TableStab({ data }: { data: LogsInfo }) {
-  const stabs = useMemo(() => {
-    if (!data?.stabs) return [];
-    return data.stabs.map(stab => ({
+export default function TableStab() {
+  const stabs = useStabsData();
+  
+  const stabsData = useMemo(() => {
+    if (!stabs || stabs.length === 0) return [];
+    return stabs.map(stab => ({
       killer: stab.killer,
       victim: stab.victim,
       time: stab.time,
     }));
-  }, [data?.stabs]);
+  }, [stabs]);
 
   return (
     <div className="flex min-h-0 w-full flex-1 flex-col">
       <div className="custom-scrollbar flex-1 overflow-y-auto">
         <Table>
           <TableBody>
-            {stabs.map((stab, index) => (
+            {stabsData.map((stab, index) => (
               <TableRow
                 key={`${stab.killer}-${stab.victim}-${stab.time}-${index}`}
                 className="group/stab"

@@ -9,17 +9,19 @@ import {
   TableRow,
 } from "../ui/table";
 import { Button } from "../ui/button";
-import { ChatCount, LogsInfo } from "@/types/game";
+import { ChatCount } from "@/types/game";
 import { groupChatsByPlayer } from "@/lib/utils";
 import useLogsStore from "@/stores/logs";
+import { useChatsData } from "./LogsContext";
 
-export default function TableChat({ data }: { data: LogsInfo }) {
+export default function TableChat() {
   const setProps = useLogsStore(state => state.setProps);
+  const chatsData = useChatsData();
 
   const chats = useMemo(() => {
-    if (!data?.chats) return [];
-    return groupChatsByPlayer(data.chats);
-  }, [data?.chats]);
+    if (!chatsData || chatsData.length === 0) return [];
+    return groupChatsByPlayer(chatsData);
+  }, [chatsData]);
 
   const handleChatClick = (chat: ChatCount) => {
     setProps({ chatSelected: chat, openChatPopup: true });

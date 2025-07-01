@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { SquareArrowOutUpRight } from "lucide-react";
-import { LogsInfo } from "@/types/game";
+import { useMapData } from "./LogsContext";
 
-export default function Map({ data }: { data: LogsInfo }) {
-  if (!data?.map) {
+export default function Map() {
+  const { map, mapUrl } = useMapData();
+
+  if (!map) {
     return null;
   }
 
@@ -11,13 +13,13 @@ export default function Map({ data }: { data: LogsInfo }) {
     <div className="mt-4 flex flex-col">
       <h3 className="text-xl font-medium">Map</h3>
       <Link
-        href={data.mapUrl || "/"}
-        target={data.mapUrl ? "_blank" : undefined}
+        href={mapUrl || "/"}
+        target={mapUrl ? "_blank" : undefined}
         rel="noopener noreferrer"
-        aria-label={`View map ${data.map} on GameBanana`}
+        aria-label={`View map ${map} on GameBanana`}
         className="group flex items-center gap-2 self-start"
       >
-        <p className="text-base group-hover:underline">{data.map}</p>
+        <p className="text-base group-hover:underline">{map}</p>
         <SquareArrowOutUpRight size={16} />
       </Link>
     </div>

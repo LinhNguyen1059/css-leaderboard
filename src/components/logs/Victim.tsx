@@ -1,12 +1,14 @@
 import { useMemo } from "react";
 import { countOccurrences, formatStabCounts } from "@/lib/utils";
-import { LogsInfo } from "@/types/game";
+import { useStabsData } from "./LogsContext";
 
-export default function Victim({ data }: { data: LogsInfo }) {
+export default function Victim() {
+  const stabs = useStabsData();
+  
   const victim = useMemo(() => {
-    if (!data?.stabs) return null;
-    return formatStabCounts(countOccurrences(data?.stabs, "victim"));
-  }, [data?.stabs]);
+    if (!stabs || stabs.length === 0) return null;
+    return formatStabCounts(countOccurrences(stabs, "victim"));
+  }, [stabs]);
 
   if (!victim) {
     return null;
