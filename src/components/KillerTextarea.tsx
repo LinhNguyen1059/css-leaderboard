@@ -49,7 +49,6 @@ export default function KillerTextarea() {
 
     const [timeStr, stabInfo] = parts;
 
-    // Validate time format (HH:MM:SS)
     if (!isValidTimeFormat(timeStr)) {
       return null;
     }
@@ -59,7 +58,6 @@ export default function KillerTextarea() {
 
     const [killer, victim] = stabParts.map(part => part.trim());
 
-    // Validate that killer and victim are not empty
     if (!killer || !victim) return null;
 
     return { time: timeStr, killer, victim };

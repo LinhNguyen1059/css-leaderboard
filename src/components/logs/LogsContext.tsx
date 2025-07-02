@@ -33,7 +33,6 @@ export function useLogsContext() {
   return context;
 }
 
-// Specific hooks for different parts of the data
 export function useMapData() {
   const { data } = useLogsContext();
   return {

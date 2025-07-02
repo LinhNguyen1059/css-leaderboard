@@ -26,7 +26,7 @@ export default function Logs({
             <LoadingPlaceholder />
           ) : (
             <>
-              {data.stabs && data.stabs.length > 0 ? (
+              {data?.stabs && data.stabs.length > 0 ? (
                 <>
                   <Map />
                   <Killer />

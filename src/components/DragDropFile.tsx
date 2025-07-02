@@ -22,7 +22,6 @@ export default function DragDropFile() {
   };
 
   const processFile = (file: File) => {
-    // Check if file is LOG or TXT
     const allowedTypes = [".log", ".txt"];
     const fileExtension = "." + file.name.split(".").pop()?.toLowerCase();
 

@@ -2,11 +2,23 @@ import Link from "next/link";
 import { SquareArrowOutUpRight } from "lucide-react";
 
 import { useMapData } from "./LogsContext";
+import useLogsStore from "@/stores/logs";
+import { Skeleton } from "../ui/skeleton";
 
 export default function Map() {
   const { map, mapUrl } = useMapData();
+  const loading = useLogsStore(state => state.mapLoading);
 
-  if (!map) {
+  if (loading) {
+    return (
+      <div className="mt-4 flex flex-col">
+        <Skeleton className="mt-4 h-4 w-2/12 bg-gray-200" />
+        <Skeleton className="mt-1 h-4 w-3/12 bg-gray-200" />
+      </div>
+    );
+  }
+
+  if (!map || !mapUrl) {
     return null;
   }
 

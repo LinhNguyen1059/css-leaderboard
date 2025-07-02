@@ -19,14 +19,13 @@ export default function useGetLeaderboard(date: Date) {
   const { setLeaderboard, setLoading, setError } = useLeaderboardStore();
 
   const query = useQuery({
-    queryKey: ["leaderboard", date.toISOString()],
+    queryKey: ["leaderboard", date?.toISOString()],
     queryFn: () => fetchLeaderboard(date),
     enabled: !!date,
     staleTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,
   });
 
-  // Update the store whenever the query state changes
   useEffect(() => {
     if (query.isLoading) {
       setLoading(true);

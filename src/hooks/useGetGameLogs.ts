@@ -19,7 +19,7 @@ export default function useGetGameLogs(date: Date) {
   const setLogsInfoProps = useLogsStore(state => state.setLogsInfoProps);
 
   const query = useQuery({
-    queryKey: ["gameLogs", date.toISOString()],
+    queryKey: ["gameLogs", date?.toISOString()],
     queryFn: () => fetchGameLogs(date),
     enabled: !!date,
     staleTime: 5 * 60 * 1000,

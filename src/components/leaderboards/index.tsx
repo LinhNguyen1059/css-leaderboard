@@ -5,6 +5,7 @@ import TableRanking from "./TableRanking";
 import TopRanking from "./TopRanking";
 import useLogsStore from "@/stores/logs";
 import LoadingPlaceholder from "./LoadingPlaceholder";
+// import ExportLeaderboard from "./ExportLeaderboard";
 
 export default function Leaderboard({
   isLoading = false,
@@ -24,12 +25,13 @@ export default function Leaderboard({
 
   return (
     <div className="flex min-h-0 flex-1 flex-col items-end pt-6 pr-16">
-      <div className="flex min-h-0 max-w-[450px] flex-1 flex-col">
+      <div className="relative flex min-h-0 max-w-[470px] flex-1 flex-col bg-white px-2">
         <h1 className="text-4xl font-bold">Bảng Thông Thần</h1>
         <span className="text-base text-[#898A8D]">
           ({dateRange.startDate} - {dateRange.endDate})
         </span>
-        <TopRanking />
+        {/* <ExportLeaderboard /> */}
+        <TopRanking isLoading={isLoading} />
         {isLoading ? <LoadingPlaceholder /> : <TableRanking />}
       </div>
     </div>

@@ -17,8 +17,9 @@ const firaCode = Fira_Code({
 });
 
 export const metadata: Metadata = {
-  title: "Counter Strike Source Leaderboard",
-  description: "A leaderboard for Counter Strike Source players",
+  title: "CSS - Bảng Thông Thần",
+  description:
+    "Nơi các 'Thông thủ' Counter-Strike Source tụ họp để thông nhau một cách văn minh nhất! Theo dõi chi tiết từng nhát dao, đếm từng lời chat, và xếp hạng ai là 'Vua Thông' của server I3 - tất cả đều được ghi chép tỉ mỉ như sổ sách nhà Ming. Đây chính là Wikipedia của làng 'đâm chém' I3! 🔪💬📊",
 };
 
 export default function RootLayout({

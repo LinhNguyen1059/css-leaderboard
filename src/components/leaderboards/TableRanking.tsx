@@ -26,7 +26,7 @@ export default function TableRanking() {
           </TableRow>
         </TableHeader>
       </Table>
-      <div className="flex-1 overflow-y-auto">
+      <div className="custom-scrollbar flex-1 overflow-y-auto">
         <Table>
           <TableBody>
             {restLeaderboard.length > 0 ? (

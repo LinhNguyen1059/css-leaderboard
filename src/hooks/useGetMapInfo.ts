@@ -1,19 +1,15 @@
-import { useState } from "react";
-
 import useLogsStore from "@/stores/logs";
 
 export default function useGetMapInfo() {
-  const [loading, setLoading] = useState(false);
-
+  const setProps = useLogsStore(state => state.setProps);
   const setLogsTmpInfoProps = useLogsStore(state => state.setLogsTmpInfoProps);
 
   const fetchMapInfo = async (mapName: string) => {
     if (!mapName) return;
 
-    setLoading(true);
+    setProps({ mapLoading: true });
 
     try {
-      // First, search for maps with the given name
       const searchResponse = await fetch(
         `https://gamebanana.com/apiv11/Util/Search/Results?_sOrder=best_match&_idGameRow=2&_sSearchString=${encodeURIComponent(mapName)}&_csvFields=name%2Cdescription%2Carticle%2Cattribs%2Cstudio%2Cowner%2Ccredits&_nPage=1`
       );
@@ -49,12 +45,9 @@ export default function useGetMapInfo() {
         mapUrl: undefined,
       });
     } finally {
-      setLoading(false);
+      setProps({ mapLoading: false });
     }
   };
 
-  return {
-    loading,
-    fetchMapInfo,
-  };
+  return { fetchMapInfo };
 }
