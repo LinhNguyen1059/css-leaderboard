@@ -7,6 +7,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import useLeaderboardStore from "@/stores/leaderboard";
+import TrendIcon from "../TrendIcon";
+import { RANK_TREND } from "@/constants/Game";
 
 export default function TableRanking() {
   const leaderboard = useLeaderboardStore(state => state.leaderboard);
@@ -24,20 +26,31 @@ export default function TableRanking() {
           </TableRow>
         </TableHeader>
       </Table>
-      <div className="flex-1 overflow-y-auto">
+      <div className="custom-scrollbar flex-1 overflow-y-auto">
         <Table>
           <TableBody>
-            {restLeaderboard.map(rank => (
-              <TableRow key={rank.rank}>
-                <TableCell className="w-[100px] font-medium">
-                  {rank.rank}
-                </TableCell>
-                <TableCell>{rank.name}</TableCell>
-                <TableCell className="text-right">
-                  {rank.totalMapScore}
+            {restLeaderboard.length > 0 ? (
+              restLeaderboard.map(rank => (
+                <TableRow key={rank.rank}>
+                  <TableCell className="w-[100px] font-medium">
+                    <div className="flex items-center gap-2">
+                      <TrendIcon trend={rank.trend as RANK_TREND} />
+                      {rank.rank}
+                    </div>
+                  </TableCell>
+                  <TableCell>{rank.name}</TableCell>
+                  <TableCell className="text-right">
+                    {rank.totalMapScore}
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={3} className="text-center">
+                  Chưa có ai bị thông
                 </TableCell>
               </TableRow>
-            ))}
+            )}
           </TableBody>
         </Table>
       </div>

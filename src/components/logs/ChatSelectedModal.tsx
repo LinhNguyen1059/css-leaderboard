@@ -1,4 +1,3 @@
-import useLogsStore from "@/stores/logs";
 import { Button } from "../ui/button";
 import {
   Dialog,
@@ -9,6 +8,7 @@ import {
   DialogTitle,
 } from "../ui/dialog";
 import { Table, TableBody, TableCell, TableRow } from "../ui/table";
+import useLogsStore from "@/stores/logs";
 
 export default function ChatSelectedModal() {
   const setProps = useLogsStore(state => state.setProps);

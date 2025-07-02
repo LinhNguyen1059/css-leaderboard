@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import useLogsStore from "@/stores/logs";
+
 import { Button } from "./ui/button";
+import useLogsStore from "@/stores/logs";
 import { LIST_VIEW, LOG_STEP } from "@/constants/Game";
 import usePostGameData from "@/hooks/usePostGameData";
 import { LogsInfo } from "@/types/game";

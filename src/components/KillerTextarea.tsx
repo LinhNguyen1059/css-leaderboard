@@ -1,9 +1,10 @@
-import useLogsStore from "@/stores/logs";
+import { useEffect } from "react";
+
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
-import { cn } from "@/lib/utils";
 import useDebounce from "@/hooks/useDebounce";
-import { useEffect } from "react";
+import useLogsStore from "@/stores/logs";
+import { cn } from "@/lib/utils";
 
 export default function KillerTextarea() {
   const stab = useLogsStore(state => state.stab);
@@ -48,7 +49,6 @@ export default function KillerTextarea() {
 
     const [timeStr, stabInfo] = parts;
 
-    // Validate time format (HH:MM:SS)
     if (!isValidTimeFormat(timeStr)) {
       return null;
     }
@@ -58,7 +58,6 @@ export default function KillerTextarea() {
 
     const [killer, victim] = stabParts.map(part => part.trim());
 
-    // Validate that killer and victim are not empty
     if (!killer || !victim) return null;
 
     return { time: timeStr, killer, victim };

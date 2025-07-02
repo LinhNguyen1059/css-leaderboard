@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
+
 import { supabase } from "@/lib/supabase";
 
-// POST: Save full game log
 export async function POST(req: NextRequest) {
   const body = await req.json();
   const { map, matchDate, stabs, chats, mapUrl } = body;
 
-  // Create/update game_log entry with embedded chats JSONB (one record per day)
   const { data: log, error: logError } = await supabase
     .from("game_logs")
     .upsert([{ map, map_url: mapUrl, match_date: matchDate, chats }], {
@@ -23,9 +22,7 @@ export async function POST(req: NextRequest) {
 
   const logId = log.id;
 
-  // Delete existing stabs for this log and insert new ones
   if (stabs && stabs.length > 0) {
-    // First delete existing stabs for this log
     const { error: deleteError } = await supabase
       .from("stabs")
       .delete()
@@ -36,7 +33,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: deleteError.message }, { status: 500 });
     }
 
-    // Then insert new stabs
     const { error: stabError } = await supabase
       .from("stabs")
       .insert(stabs.map((s: any) => ({ ...s, log_id: logId })));
@@ -50,7 +46,6 @@ export async function POST(req: NextRequest) {
   return NextResponse.json({ success: true, log_id: logId });
 }
 
-// GET: Fetch game log with stabs + chats
 export async function GET(req: NextRequest) {
   const matchDate = req.nextUrl.searchParams.get("matchDate");
 
@@ -58,15 +53,18 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Missing matchDate" }, { status: 400 });
   }
 
-  // Get the log
   const { data: logs, error: logError } = await supabase
     .from("game_logs")
     .select("*")
     .eq("match_date", matchDate)
     .limit(1);
 
-  if (logError || !logs?.[0]) {
+  if (logError) {
     return NextResponse.json({ error: "Log not found" }, { status: 404 });
+  }
+
+  if (!logs || logs.length === 0) {
+    return NextResponse.json({ logs: null, stabs: null }, { status: 200 });
   }
 
   const logId = logs[0].id;
@@ -82,8 +80,7 @@ export async function GET(req: NextRequest) {
   }
 
   return NextResponse.json({
-    log: logs[0],
+    logs: logs[0],
     stabs,
-    chats: logs[0].chats ?? [],
   });
 }

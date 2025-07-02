@@ -1,8 +1,8 @@
-export const RANK_TREND = {
-  UP: "up",
-  DOWN: "down",
-  SAME: "same",
-};
+export enum RANK_TREND {
+  UP = "up",
+  DOWN = "down",
+  SAME = "same",
+}
 
 export enum LIST_VIEW {
   STAB = "st",

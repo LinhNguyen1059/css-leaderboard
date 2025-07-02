@@ -1,12 +1,14 @@
 import { useMemo } from "react";
 import { countOccurrences, formatStabCounts } from "@/lib/utils";
-import { LogsInfo } from "@/types/game";
+import { useStabsData } from "./LogsContext";
 
-export default function Killer({ data }: { data: LogsInfo }) {
+export default function Killer() {
+  const stabs = useStabsData();
+
   const killer = useMemo(() => {
-    if (!data?.stabs) return null;
-    return formatStabCounts(countOccurrences(data?.stabs, "killer"));
-  }, [data?.stabs]);
+    if (!stabs || stabs.length === 0) return null;
+    return formatStabCounts(countOccurrences(stabs, "killer"));
+  }, [stabs]);
 
   if (!killer) {
     return null;

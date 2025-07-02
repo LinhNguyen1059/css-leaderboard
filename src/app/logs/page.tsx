@@ -5,9 +5,9 @@ import DragDropFile from "@/components/DragDropFile";
 import KillerTextarea from "@/components/KillerTextarea";
 import Logs from "@/components/logs";
 import MapInput from "@/components/MapInput";
-import { LOG_STEP } from "@/constants/Game";
-import { cn } from "@/lib/utils";
+
 import useLogsStore from "@/stores/logs";
+import { LOG_STEP } from "@/constants/Game";
 import { LogsInfo } from "@/types/game";
 
 export default function LogsPage() {

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+
 import { supabase } from "@/lib/supabase";
 
 export async function POST(req: NextRequest) {
@@ -16,10 +17,9 @@ export async function POST(req: NextRequest) {
   yesterday.setDate(today.getDate() - 1);
   const yesterdayStr = yesterday.toISOString().split("T")[0];
 
-  // Fetch yesterday's scores
   const { data: prevScores, error: prevError } = await supabase
     .from("daily_scores")
-    .select("name, total_map_score")
+    .select("name, total_kills, total_deaths, total_map_score")
     .eq("match_date", yesterdayStr);
 
   if (prevError) {
@@ -28,21 +28,35 @@ export async function POST(req: NextRequest) {
   }
 
   const prevMap = new Map(
-    prevScores?.map(p => [p.name, p.total_map_score]) ?? []
+    prevScores?.map(p => [
+      p.name,
+      {
+        total_kills: p.total_kills,
+        total_deaths: p.total_deaths,
+        total_map_score: p.total_map_score,
+      },
+    ]) ?? []
   );
 
-  // Prepare cumulative scores
-  const finalScores = scores.map((s: any) => ({
-    name: s.name,
-    match_date: matchDate,
-    kills: s.kills || 0,
-    deaths: s.deaths || 0,
-    score: s.score,
-    total_map_score: (prevMap.get(s.name) || 0) + s.score,
-    log_id: logId,
-  }));
+  const finalScores = scores.map((s: any) => {
+    const prevData = prevMap.get(s.name) || {
+      total_kills: 0,
+      total_deaths: 0,
+      total_map_score: 0,
+    };
+    return {
+      name: s.name,
+      match_date: matchDate,
+      kills: s.kills || 0,
+      total_kills: prevData.total_kills + (s.kills || 0),
+      deaths: s.deaths || 0,
+      total_deaths: prevData.total_deaths + (s.deaths || 0),
+      score: s.score,
+      total_map_score: prevData.total_map_score + s.score,
+      log_id: logId,
+    };
+  });
 
-  // Upsert today's scores
   const { error: upsertError, data: upsertData } = await supabase
     .from("daily_scores")
     .upsert(finalScores, { onConflict: "name,match_date,log_id" });

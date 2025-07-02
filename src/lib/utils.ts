@@ -26,7 +26,6 @@ export function parseFileContent(content: string) {
     const [, month, day, year, time] = timeMatch;
     matchDate = `${year}-${month}-${day}`;
 
-    // Find stabs
     const killMatch = line.match(
       /"(.+?)<\d+><[^>]+><[^>]*>" killed "(.+?)<\d+><[^>]+><[^>]*>" with "knife"/
     );
@@ -36,7 +35,6 @@ export function parseFileContent(content: string) {
       continue;
     }
 
-    // Find say or say_team
     const chatMatch = line.match(
       /"(.+?)<\d+><[^>]+><[^>]*>" say(_team)? "(.+?)"/
     );
@@ -107,7 +105,6 @@ export function parseGameLogToScores(log: LogsInfo) {
     deathMap[stab.victim] = (deathMap[stab.victim] || 0) + 1;
   }
 
-  // Get all unique players
   const allPlayers = new Set([
     ...Object.keys(killMap),
     ...Object.keys(deathMap),

@@ -1,6 +1,7 @@
 import { Upload } from "lucide-react";
 import { useState, useRef } from "react";
 import { toast } from "sonner";
+
 import { cn, parseFileContent } from "@/lib/utils";
 import useLogsStore from "@/stores/logs";
 import { LOG_STEP } from "@/constants/Game";
@@ -21,7 +22,6 @@ export default function DragDropFile() {
   };
 
   const processFile = (file: File) => {
-    // Check if file is LOG or TXT
     const allowedTypes = [".log", ".txt"];
     const fileExtension = "." + file.name.split(".").pop()?.toLowerCase();
 

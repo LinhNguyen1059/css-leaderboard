@@ -1,16 +1,15 @@
-"use client";
-
-import { useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 
 import { Button } from "../ui/button";
 import { Calendar } from "../ui/calendar";
+import useLogsStore from "@/stores/logs";
 import { cn } from "@/lib/utils";
 
 export default function DatePicker() {
-  const [date, setDate] = useState<Date | undefined>(new Date());
+  const date = useLogsStore(state => state.date);
+  const setProps = useLogsStore(state => state.setProps);
 
   return (
     <Popover>
@@ -30,7 +29,7 @@ export default function DatePicker() {
         <Calendar
           mode="single"
           selected={date}
-          onSelect={setDate}
+          onSelect={selectedDate => setProps({ date: selectedDate })}
           disabled={date => date > new Date() || date < new Date("1900-01-01")}
           captionLayout="dropdown"
         />
